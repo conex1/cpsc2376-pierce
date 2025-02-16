@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <limits>  // Added for input validation
 
 // Constants
 const std::string BALANCE_FILE = "account_balance.txt";
@@ -35,7 +36,13 @@ int main() {
     do {
         displayMenu();
         std::cout << "Enter your choice: ";
-        std::cin >> choice;
+        
+        // Input validation for menu choice
+        while(!(std::cin >> choice)) {
+            std::cout << "Invalid input! Please enter 1-4: ";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
 
         switch (choice) {
             case 1:
@@ -60,7 +67,7 @@ int main() {
     return 0;
 }
 
-// Read balance from file
+// Read balance from file (unchanged)
 double readBalanceFromFile() {
     std::ifstream file(BALANCE_FILE);
     if (!file) {
@@ -73,7 +80,7 @@ double readBalanceFromFile() {
     return balance;
 }
 
-// Write balance to file
+// Write balance to file (unchanged)
 void writeBalanceToFile(double balance) {
     std::ofstream file(BALANCE_FILE);
     if (!file) {
@@ -85,7 +92,7 @@ void writeBalanceToFile(double balance) {
     file.close();
 }
 
-// Display menu options
+// Display menu options (unchanged)
 void displayMenu() {
     std::cout << "\nMenu:\n";
     std::cout << "1. Check Balance\n";
@@ -94,16 +101,22 @@ void displayMenu() {
     std::cout << "4. Exit\n";
 }
 
-// Check and display current balance
+// Check balance (unchanged)
 void checkBalance(double balance) {
     std::cout << "Your current balance is: $" << std::fixed << std::setprecision(2) << balance << std::endl;
 }
 
-// Deposit money
+// Deposit money with validation
 double deposit(double balance) {
     double amount;
     std::cout << "Enter deposit amount: ";
-    std::cin >> amount;
+    
+    // Input validation for deposit amount
+    while(!(std::cin >> amount)) {
+        std::cout << "Invalid input! Please enter a number: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 
     if (amount <= 0) {
         std::cout << "Error: Deposit amount must be positive." << std::endl;
@@ -115,11 +128,17 @@ double deposit(double balance) {
     return balance;
 }
 
-// Withdraw money
+// Withdraw money with validation
 double withdraw(double balance) {
     double amount;
     std::cout << "Enter withdrawal amount: ";
-    std::cin >> amount;
+    
+    // Input validation for withdrawal amount
+    while(!(std::cin >> amount)) {
+        std::cout << "Invalid input! Please enter a number: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 
     if (amount <= 0) {
         std::cout << "Error: Withdrawal amount must be positive." << std::endl;
